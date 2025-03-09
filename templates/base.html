@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Invar's True Encyclopedic Mind{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='runes.js') }}" defer></script>
+</head>
+<body>
+    <div class="container fade-in">
+        <h1 class="glow-text">📖 Invar’s True Encyclopedic Mind</h1>
+        <p class="lore-text">Trapped within a construct, the ancient elven historian Invar records every item known to the realms...</p>
+
+        <nav class="nav-bar">
+            <a href="{{ url_for('index') }}" class="btn">Home</a>
+            <a href="{{ url_for('list_weapons') }}" class="btn">Weapons</a>
+            <a href="{{ url_for('list_armor') }}" class="btn">Armor</a>
+        </nav>
+
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>

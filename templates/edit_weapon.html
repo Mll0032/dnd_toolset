@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Weapons | Invar's Archive{% endblock %}
+
+{% block content %}
+</head>
+<body>
+    <h1>🗡️ Edit Weapon: {{ weapon.name }}</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>{{ form.name.label }} {{ form.name() }}</p>
+        <p>{{ form.category.label }} {{ form.category() }}</p>
+        <p>{{ form.cost.label }} {{ form.cost() }}</p>
+        <p>{{ form.damage.label }} {{ form.damage() }}</p>
+        <p>{{ form.weight.label }} {{ form.weight() }}</p>
+        <p>{{ form.properties.label }} {{ form.properties() }}</p>
+        <p>{{ form.source.label }} {{ form.source() }}</p>
+        <p>{{ form.homebrew.label }} {{ form.homebrew() }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    <a href="{{ url_for('list_weapons') }}">Cancel</a>
+</body>
+</html>
+{% endblock %}

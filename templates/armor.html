@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Armor | Invar's Archive{% endblock %}
+
+{% block content %}
+
+    <h2>🛡️ Armors of the Realm</h1>
+
+    <!-- Filter Form -->
+    <form method="GET" action="{{ url_for('list_armor') }}">
+        <label for="category">Filter by Category:</label>
+        <select name="category" id="category">
+            <option value="">All Categories</option>
+            {% for category in categories %}
+                <option value="{{ category }}" {% if request.args.get('category') == category %}selected{% endif %}>
+                    {{ category }}
+                </option>
+            {% endfor %}
+        </select>
+    
+        <label for="source">Filter by Source:</label>
+        <select name="source" id="source">
+            <option value="">All Sources</option>
+            {% for source in sources %}
+                <option value="{{ source }}" {% if request.args.get('source') == source %}selected{% endif %}>
+                    {{ source }}
+                </option>
+            {% endfor %}
+        </select>
+    
+        <button type="submit">Filter</button>
+    </form>
+    
+
+    <!-- Add Armor Form -->
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>{{ form.name.label }} {{ form.name() }}</p>
+        <p>{{ form.category.label }} {{ form.category() }}</p>
+        <p>{{ form.cost.label }} {{ form.cost() }}</p>
+        <p>{{ form.armor_class.label }} {{ form.armor_class() }}</p>
+        <p>{{ form.strength_requirement.label }} {{ form.strength_requirement() }}</p>
+        <p>{{ form.stealth_disadvantage.label }} {{ form.stealth_disadvantage() }}</p>
+        <p>{{ form.weight.label }} {{ form.weight() }} lb</p>
+        <p>{{ form.source.label }} {{ form.source() }}</p>
+        <p>{{ form.homebrew.label }} {{ form.homebrew() }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <!-- Armor List -->
+    <ul>
+        {% for armor in armors %}
+            <li>
+                {{ armor.name }} - {{ armor.category }} - AC: {{ armor.armor_class }} ({{ armor.source }})
+                <a href="{{ url_for('edit_armor', armor_id=armor.id) }}">Edit</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+{% endblock %}

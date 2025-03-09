@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Armor | Invar's Archive{% endblock %}
+
+{% block content %}
+
+<body>
+    <h1>🛡️Edit Armor: {{ armor.name }}</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>{{ form.name.label }} {{ form.name() }}</p>
+        <p>{{ form.category.label }} {{ form.category() }}</p>
+        <p>{{ form.cost.label }} {{ form.cost() }}</p>
+        <p>{{ form.armor_class.label }} {{ form.armor_class() }}</p>
+        <p>{{ form.strength_requirement.label }} {{ form.strength_requirement() }}</p>
+        <p>{{ form.stealth_disadvantage.label }} {{ form.stealth_disadvantage() }}</p>
+        <p>{{ form.weight.label }} {{ form.weight() }}</p>
+        <p>{{ form.source.label }} {{ form.source() }}</p>
+        <p>{{ form.homebrew.label }} {{ form.homebrew() }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    <a href="{{ url_for('list_armor') }}">Cancel</a>
+</body>
+</html>
+{% endblock %}
