@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Magic Items | Invar's Archive{% endblock %}
+
+{% block content %}
+    <h2 class="glow-text">🔮 Magic Items of the Realm</h2>
+
+    <!-- Filter Form -->
+    <form method="GET" action="{{ url_for('list_magic_items') }}">
+        <label for="rarity">Filter by Rarity:</label>
+        <select name="rarity" id="rarity">
+            <option value="">All Rarities</option>
+            {% for rarity in rarities %}
+                <option value="{{ rarity }}" {% if request.args.get('rarity') == rarity %}selected{% endif %}>
+                    {{ rarity }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="attunement">Filter by Attunement:</label>
+        <select name="attunement" id="attunement">
+            <option value="">All</option>
+            <option value="yes" {% if request.args.get('attunement') == 'yes' %}selected{% endif %}>Requires Attunement</option>
+            <option value="no" {% if request.args.get('attunement') == 'no' %}selected{% endif %}>No Attunement</option>
+        </select>
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- Add Magic Item Form -->
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>{{ form.name.label }} {{ form.name() }}</p>
+        <p>{{ form.rarity.label }} {{ form.rarity() }}</p>
+        <p>{{ form.attunement.label }} {{ form.attunement() }}</p>
+        <p>{{ form.description.label }} {{ form.description() }}</p>
+        <p>{{ form.image.label }} {{ form.image() }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <!-- Magic Items List -->
+    <ul>
+        {% for item in magic_items %}
+            <li>
+                <strong>{{ item.name }}</strong> - {{ item.rarity }} 
+                {% if item.attunement %}(Requires Attunement){% endif %}
+                <br>{{ item.description }}
+                <a href="{{ url_for('edit_magic_item', item_id=item.id) }}">Edit</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
