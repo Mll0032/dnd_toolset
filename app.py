@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
-from models import db, Weapon, Armor
-from forms import AddWeaponForm, AddArmorForm
+from models import db, Weapon, Armor, MagicItem, Gear, Tool
+from forms import AddWeaponForm, AddArmorForm, AddMagicItemForm, AddGearForm, AddToolForm
+
 
 import os
 
@@ -13,6 +14,68 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'your_secret_key'  # Change this in production
 
 db.init_app(app)
+
+@app.route('/magic_items', methods=['GET', 'POST'])
+def list_magic_items():
+    form = AddMagicItemForm()
+
+    if form.validate_on_submit():
+        new_item = MagicItem(
+            name=form.name.data,
+            rarity=form.rarity.data,
+            attunement=form.attunement.data,
+            description=form.description.data,
+            image=form.image.data
+        )
+        db.session.add(new_item)
+        db.session.commit()
+        return redirect(url_for('list_magic_items'))
+
+    magic_items = MagicItem.query.all()
+    rarities = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Legendary', 'Artifact']
+    
+    return render_template('magic_items.html', magic_items=magic_items, rarities=rarities, form=form)
+
+
+@app.route('/gear', methods=['GET', 'POST'])
+def list_gear():
+    form = AddGearForm()
+
+    if form.validate_on_submit():
+        new_gear = Gear(
+            name=form.name.data,
+            description=form.description.data,
+            cost=form.cost.data,
+            weight=form.weight.data
+        )
+        db.session.add(new_gear)
+        db.session.commit()
+        return redirect(url_for('list_gear'))
+
+    gear = Gear.query.all()
+    sources = ['Player’s Handbook', 'Dungeon Master’s Guide', 'Homebrew']
+    
+    return render_template('gear.html', gear=gear, sources=sources, form=form)
+
+@app.route('/tools', methods=['GET', 'POST'])
+def list_tools():
+    form = AddToolForm()
+
+    if form.validate_on_submit():
+        new_tool = Tool(
+            name=form.name.data,
+            description=form.description.data,
+            cost=form.cost.data,
+            weight=form.weight.data
+        )
+        db.session.add(new_tool)
+        db.session.commit()
+        return redirect(url_for('list_tools'))
+
+    tools = Tool.query.all()
+    sources = ['Player’s Handbook', 'Xanathar’s Guide to Everything', 'Homebrew']
+    
+    return render_template('tools.html', tools=tools, sources=sources, form=form)
 
 @app.route('/')
 def index():
