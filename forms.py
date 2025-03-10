@@ -34,3 +34,32 @@ class AddArmorForm(FlaskForm):
     source = StringField('Source Book')
     homebrew = BooleanField('Homebrew')
     submit = SubmitField('Add Armor')
+
+from flask_wtf import FlaskForm
+from wtforms import StringField, SelectField, BooleanField, TextAreaField, SubmitField
+from wtforms.validators import DataRequired
+
+class AddMagicItemForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    rarity = SelectField("Rarity", choices=[('Common', 'Common'), ('Uncommon', 'Uncommon'), 
+                                            ('Rare', 'Rare'), ('Very Rare', 'Very Rare'),
+                                            ('Legendary', 'Legendary'), ('Artifact', 'Artifact')],
+                         validators=[DataRequired()])
+    attunement = BooleanField("Requires Attunement?")
+    description = TextAreaField("Description", validators=[DataRequired()])
+    image = StringField("Image URL")
+    submit = SubmitField("Add Magic Item")
+
+class AddGearForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    description = TextAreaField("Description", validators=[DataRequired()])
+    cost = StringField("Cost", validators=[DataRequired()])
+    weight = StringField("Weight", validators=[DataRequired()])
+    submit = SubmitField("Add Gear")
+
+class AddToolForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    description = TextAreaField("Description", validators=[DataRequired()])
+    cost = StringField("Cost", validators=[DataRequired()])
+    weight = StringField("Weight", validators=[DataRequired()])
+    submit = SubmitField("Add Tool")
