@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Tools | Invar's Archive{% endblock %}
+
+{% block content %}
+    <h2 class="glow-text">🔧 Tools & Kits</h2>
+
+    <!-- Filter Form -->
+    <form method="GET" action="{{ url_for('list_tools') }}">
+        <label for="source">Filter by Source:</label>
+        <select name="source" id="source">
+            <option value="">All Sources</option>
+            {% for source in sources %}
+                <option value="{{ source }}" {% if request.args.get('source') == source %}selected{% endif %}>
+                    {{ source }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- Add Tool Form -->
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>{{ form.name.label }} {{ form.name() }}</p>
+        <p>{{ form.description.label }} {{ form.description() }}</p>
+        <p>{{ form.cost.label }} {{ form.cost() }} gp</p>
+        <p>{{ form.weight.label }} {{ form.weight() }} lbs</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <!-- Tools List -->
+    <ul>
+        {% for item in tools %}
+            <li>
+                <strong>{{ item.name }}</strong> - {{ item.cost }} gp, {{ item.weight }} lbs
+                <br>{{ item.description }}
+                <a href="{{ url_for('edit_tool', item_id=item.id) }}">Edit</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
